@@ -14,7 +14,6 @@ async def listen_wake():
     async with websockets.connect('ws://10.0.0.110:12101/api/events/wake') as ws:
         while True:
             wake = await ws.recv()
-            print(wake)
             VOL = await snapcast.cur_vol('radiopi')
             await snapcast.volume_change('radiopi', 2)
 
@@ -24,7 +23,6 @@ async def listen_intent():
         while True:
             data = await ws.recv()
             jdata = json.loads(data)
-            print(jdata)
             await intent_switch(jdata)
 
 

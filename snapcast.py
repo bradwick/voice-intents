@@ -19,7 +19,6 @@ async def volume_change(device, end_vol):
                                   extra_headers={"content-type": "application/json"}) as ws:
         step = 1 if end_vol >= current_vol else -1
         for x in range(current_vol, end_vol + step, step):
-            print(x)
             await asyncio.sleep(.1)
             vol_data = {"id": 1337, "jsonrpc": "2.0", "method": "Client.SetVolume",
                         "params": {"id": mac, "volume": {"muted": False, "percent": x}}}
@@ -35,7 +34,6 @@ async def cur_vol(device):
         await ws.send(json.dumps(get_status_data))
         resp = await ws.recv()
         jresp = json.loads(resp)
-        print(jresp)
         if jresp.get('id') == tick:
             # this is our message response
             return jresp.get('result').get('client').get('config').get('volume').get('percent')
