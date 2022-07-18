@@ -12,14 +12,17 @@ def mac_from_device(device):
         return 'b8:27:eb:a6:6a:47'
 
 
-async def volume_change(device, end_vol):
+async def volume_change(device, end_vol, step_multiplier=1):
     mac = mac_from_device(device)
     current_vol = await cur_vol(device)
     async with websockets.connect('ws://10.0.0.10:1780/jsonrpc',
                                   extra_headers={"content-type": "application/json"}) as ws:
-        step = 1 if end_vol >= current_vol else -1
-        for x in range(current_vol, end_vol + step, step):
+        direction = 1 if end_vol >= current_vol else -1
+        step = direction * step_multiplier
+        for x in range(current_vol, end_vol + direction, step):
             await asyncio.sleep(.1)
+            if abs(x) - abs(end_vol) < abs(step):
+                x = end_vol
             vol_data = {"id": 1337, "jsonrpc": "2.0", "method": "Client.SetVolume",
                         "params": {"id": mac, "volume": {"muted": False, "percent": x}}}
             await ws.send(json.dumps(vol_data))

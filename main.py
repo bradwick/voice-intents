@@ -15,7 +15,7 @@ async def listen_wake():
         while True:
             wake = await ws.recv()
             VOL = await snapcast.cur_vol('radiopi')
-            await snapcast.volume_change('radiopi', 2)
+            await snapcast.volume_change('radiopi', 2, step_multiplier= 5)
 
 
 async def listen_intent():
