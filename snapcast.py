@@ -21,7 +21,7 @@ async def volume_change(device, end_vol, step_multiplier=1):
         step = direction * step_multiplier
         for x in range(current_vol, end_vol + direction, step):
             await asyncio.sleep(.1)
-            if abs(x) - abs(end_vol) < abs(step):
+            if abs(x - end_vol) < abs(step):
                 x = end_vol
             vol_data = {"id": 1337, "jsonrpc": "2.0", "method": "Client.SetVolume",
                         "params": {"id": mac, "volume": {"muted": False, "percent": x}}}
