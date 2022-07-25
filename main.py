@@ -19,7 +19,7 @@ async def listen_wake():
                 wake = await ws.recv()
                 VOL = await snapcast.cur_vol('radiopi')
                 await snapcast.volume_change('radiopi', 2, step_multiplier=5)
-    except websockets.ConnectionClosedError as e:
+    except Exception as e:
         print(e)
         await asyncio.sleep(5)
         start_wake_thread()
@@ -33,7 +33,7 @@ async def listen_intent():
                 data = await ws.recv()
                 jdata = json.loads(data)
                 await intent_switch(jdata)
-    except websockets.ConnectionClosedError as e:
+    except Exception as e:
         print(e)
         await asyncio.sleep(5)
         start_intent_thread()
