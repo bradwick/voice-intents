@@ -1,4 +1,5 @@
 import asyncio
+import datetime
 import json
 import time
 
@@ -15,6 +16,7 @@ def mac_from_device(device):
 async def volume_change(device, end_vol, step_multiplier=1):
     mac = mac_from_device(device)
     current_vol = await cur_vol(device)
+    vol_steps = []
     async with websockets.connect('ws://10.0.0.10:1780/jsonrpc',
                                   extra_headers={"content-type": "application/json"}) as ws:
         direction = 1 if end_vol >= current_vol else -1
@@ -25,7 +27,9 @@ async def volume_change(device, end_vol, step_multiplier=1):
                 x = end_vol
             vol_data = {"id": 1337, "jsonrpc": "2.0", "method": "Client.SetVolume",
                         "params": {"id": mac, "volume": {"muted": False, "percent": x}}}
+            vol_steps.append(x)
             await ws.send(json.dumps(vol_data))
+    print(f'At {datetime.datetime.now()} I changed the volume in this order : {vol_steps}')
 
 
 async def cur_vol(device):
