@@ -234,3 +234,9 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
+/.idea/.gitignore
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/inspectionProfiles/profiles_settings.xml
+/.idea/vcs.xml
+/.idea/voice-intents.iml
