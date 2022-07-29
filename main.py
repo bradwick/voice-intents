@@ -42,8 +42,10 @@ async def listen_intent():
 async def intent_switch(jdata):
     name = jdata.get('intent').get('name')
     if name == 'MusicVolume':
-        await snapcast.volume_change('kitchen' if 'kitchen' in jdata.get('raw_text') else 'radiopi',
-                                     jdata.get('slots').get('volume'))
+        await snapcast.volume_change(
+            'kitchen' if 'kitchen' in jdata.get('raw_text') else 'laundry' if 'laundry' in jdata.get(
+                'raw_text') else 'radiopi',
+            jdata.get('slots').get('volume'))
         if 'kitchen' not in jdata.get('raw_text'):
             return None
     await snapcast.volume_change('radiopi', VOL)
