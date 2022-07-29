@@ -50,11 +50,13 @@ async def intent_switch(jdata):
 
 
 def start_intent_thread():
+    print("Starting intent thread")
     intent_thread = threading.Thread(target=asyncio.run, args=(listen_intent(),))
     intent_thread.start()
 
 
 def start_wake_thread():
+    print("Starting wake thread")
     wake_thread = threading.Thread(target=asyncio.run, args=(listen_wake(),))
     wake_thread.start()
 
