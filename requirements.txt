@@ -1,2 +1,2 @@
-websockets==10.3ß
+websockets==10.3
 requests~=2.24.0
