@@ -45,7 +45,7 @@ async def intent_switch(jdata):
         device = 'kitchen' if 'kitchen' in jdata.get('raw_text') else 'laundry' if 'laundry' in jdata.get(
             'raw_text') else 'radiopi'
         await snapcast.volume_change(device, jdata.get('slots').get('volume'))
-        if jdata.siteId == 'radiopi' and device == 'radiopi':
+        if device == 'radiopi':
             return None
     await snapcast.volume_change('radiopi', VOL)
 
